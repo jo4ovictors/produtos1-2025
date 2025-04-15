@@ -1,6 +1,7 @@
 package br.edu.ifmg.produto.services;
 
 import br.edu.ifmg.produto.dtos.ProductDTO;
+import br.edu.ifmg.produto.entities.Category;
 import br.edu.ifmg.produto.entities.Product;
 import br.edu.ifmg.produto.repository.ProductRepository;
 
@@ -76,6 +77,7 @@ public class ProductService {
         entity.setDescription(dto.getDescription());
         entity.setPrice(dto.getPrice());
         entity.setImageUrl(dto.getImageUrl());
+        dto.getCategories().forEach(c -> entity.getCategories().add(new Category(c)));
     }
 
 }

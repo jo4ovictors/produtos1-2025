@@ -34,7 +34,7 @@ public class ProductDTO {
         this.description = entity.getDescription();
         this.price = entity.getPrice();
         this.imageUrl = entity.getImageUrl();
-        entity.getCategories().forEach(c -> this.categories.add(new CategoryDTO()));
+        entity.getCategories().forEach(c -> this.categories.add(new CategoryDTO(c)));
     }
 
     public ProductDTO(Product product, Set<Category> categories) {
