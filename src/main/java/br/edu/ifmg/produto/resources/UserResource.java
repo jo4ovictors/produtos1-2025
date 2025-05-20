@@ -2,8 +2,11 @@ package br.edu.ifmg.produto.resources;
 
 
 import br.edu.ifmg.produto.dtos.ProductDTO;
-import br.edu.ifmg.produto.entities.Product;
+import br.edu.ifmg.produto.dtos.UserDTO;
+import br.edu.ifmg.produto.dtos.UserInsertDTO;
+import br.edu.ifmg.produto.entities.User;
 import br.edu.ifmg.produto.services.ProductService;
+import br.edu.ifmg.produto.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -18,44 +21,44 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 
 @RestController
-@RequestMapping(value = "/product")
-@Tag(name = "Product", description = "Controller/Resource for products")
-public class ProductResource {
+@RequestMapping(value = "/user")
+@Tag(name = "User", description = "Controller/Resource for users")
+public class UserResource {
 
     @Autowired
-    private ProductService productService;
+    private UserService userService;
 
     @GetMapping(produces = "application/json")
     @Operation(
-            description = "Get all products",
-            summary = "Get all products",
+            description = "Get all users",
+            summary = "Get all users",
             responses = {
                     @ApiResponse(description = "ok", responseCode = "200"),
             }
     )
-    public ResponseEntity<Page<ProductDTO>> findAll(Pageable pageable) {
-        Page<ProductDTO> products = productService.findAll(pageable);
-        return ResponseEntity.ok().body(products);
+    public ResponseEntity<Page<UserDTO>> findAll(Pageable pageable) {
+        Page<UserDTO> list = userService.findAll(pageable);
+        return ResponseEntity.ok().body(list);
     }
 
     @GetMapping(value = "/{id}", produces = "application/json")
     @Operation(
-            description = "Get a product",
-            summary = "Get a product",
+            description = "Get a user",
+            summary = "Get a user",
             responses = {
                     @ApiResponse(description = "ok", responseCode = "200"),
                     @ApiResponse(description = "Not found", responseCode = "404"),
             }
     )
-    public ResponseEntity<ProductDTO> findById(@PathVariable Long id) {
-        ProductDTO product = productService.findById(id);
-        return ResponseEntity.ok().body(product);
+    public ResponseEntity<UserDTO> findById(@PathVariable Long id) {
+        UserDTO dto = userService.findById(id);
+        return ResponseEntity.ok().body(dto);
     }
 
     @PostMapping(produces = "application/json")
     @Operation(
-            description = "Create a new product",
-            summary = "Create a new product",
+            description = "Create a new user",
+            summary = "Create a new user",
             responses = {
                     @ApiResponse(description = "Created", responseCode = "201"),
                     @ApiResponse(description = "Bad Request", responseCode = "400"),
@@ -63,16 +66,16 @@ public class ProductResource {
                     @ApiResponse(description = "Forbidden", responseCode = "403"),
             }
     )
-    public ResponseEntity<ProductDTO> insert(@Valid @RequestBody ProductDTO dto) {
-         dto = productService.insert(dto);
+    public ResponseEntity<UserDTO> insert(@Valid @RequestBody UserInsertDTO dto) {
+         UserDTO user = userService.insert(dto);
          URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
-         return ResponseEntity.created(uri).body(dto);
+         return ResponseEntity.created(uri).body(user);
     }
 
     @PutMapping(value = "/{id}", produces = "application/json")
     @Operation(
-            description = "Update a product",
-            summary = "Update a product",
+            description = "Update a user",
+            summary = "Update a user",
             responses = {
                     @ApiResponse(description = "ok", responseCode = "200"),
                     @ApiResponse(description = "Bad Request", responseCode = "400"),
@@ -81,15 +84,15 @@ public class ProductResource {
                     @ApiResponse(description = "Not found", responseCode = "404"),
             }
     )
-    public ResponseEntity<ProductDTO> update(@PathVariable Long id, @Valid @RequestBody ProductDTO dto) {
-        dto = productService.update(id, dto);
+    public ResponseEntity<UserDTO> update(@PathVariable Long id, @Valid @RequestBody UserDTO dto) {
+        dto = userService.update(id, dto);
         return ResponseEntity.ok().body(dto);
     }
 
     @DeleteMapping(value = "/{id}")
     @Operation(
-            description = "Delete a product",
-            summary = "Delete a product",
+            description = "Delete a user",
+            summary = "Delete a user",
             responses = {
                     @ApiResponse(description = "ok", responseCode = "200"),
                     @ApiResponse(description = "Bad Request", responseCode = "400"),
@@ -99,7 +102,7 @@ public class ProductResource {
             }
     )
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        productService.delete(id);
+        userService.delete(id);
         return ResponseEntity.noContent().build();
     }
 

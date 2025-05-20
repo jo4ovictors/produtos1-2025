@@ -44,8 +44,8 @@ public class UserDTO {
 
     public UserDTO(User user) {
         id = user.getId();
-        firstName = getFirstName();
-        lastName = getLastName();
+        firstName = user.getFirstName();
+        lastName = user.getLastName();
         email = user.getEmail();
 
         user.getRoles().forEach( role -> roles.add(new RoleDTO(role)));
