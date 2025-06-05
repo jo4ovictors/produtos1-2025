@@ -1,0 +1,3 @@
+ALTER TABLE `tb_product`
+    CHANGE COLUMN `name` `name`
+    VARCHAR(300) NULL DEFAULT NULL;
