@@ -1,0 +1,41 @@
+services:
+  db:
+    image: mysql:8.0.39
+    container_name: mysql-aula
+    volumes:
+      - dbdata:/var/lib/mysql
+    networks:
+      - productsNW
+    restart: always
+    ports:
+      - "3308:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: products
+
+  api-products:
+    container_name: api-produto
+    build:
+      context: ./
+      #dockerfile: ../../../Downloads/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - CORS_ORIGINS=http://localhost:3000,http://localhost
+    depends_on:
+      - db
+    networks:
+      - productsNW
+    restart: always  # <-- aqui dentro!
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+volumes:
+  dbdata:
+
+networks:
+  productsNW:
+    driver: bridge
